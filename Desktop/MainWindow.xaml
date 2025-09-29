@@ -6,7 +6,30 @@
         xmlns:local="clr-namespace:Desktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Margin="0,0,0,-6">
+        <Button Content="Войти" HorizontalAlignment="Left" Margin="463,311,0,0" VerticalAlignment="Top" Background="#FFF96060" BorderBrush="#FFF96060" Foreground="White" Click="Button_Click" Height="37" Width="228" FontSize="16">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10 10 5 5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Content="Регистрация" HorizontalAlignment="Left" Margin="463,367,0,0" VerticalAlignment="Top" Background="#FFF96060" BorderBrush="#FFF96060" Foreground="White" Height="34" Width="228" FontSize="16">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5 5 10 10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Image HorizontalAlignment="Left" Height="181" Margin="121,30,0,0" VerticalAlignment="Top" Width="209" Source="/5391009552729765759.jpg"/>
+        <TextBox HorizontalAlignment="Left" Margin="463,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090" Text="Введите почту"/>
+        <TextBox HorizontalAlignment="Left" Margin="463,225,0,0" TextWrapping="Wrap" Text="Введите пароль" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090"/>
+        <Button Content="Восстановить пароль" HorizontalAlignment="Left" Margin="569,256,0,0" VerticalAlignment="Top" BorderBrush="White" Background="White" FontSize="16"/>
+        <Label Content="Добро пожаловать!" HorizontalAlignment="Left" Margin="463,47,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <Label Content="Почта" HorizontalAlignment="Left" Margin="463,118,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Label Content="Пароль" HorizontalAlignment="Left" Margin="463,194,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Border BorderBrush="#FF959090" BorderThickness="1" Margin="463,248,65,191"/>
+        <Border BorderBrush="#FF959090" BorderThickness="1" Margin="463,180,65,259"/>
+
     </Grid>
 </Window>
