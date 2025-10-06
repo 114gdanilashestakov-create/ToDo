@@ -1,0 +1,40 @@
+﻿<Window x:Class="Desktop.Registration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Desktop"
+        mc:Ignorable="d"
+        Title="Registration" Height="450" Width="800">
+    <Grid>
+        <Button Content="Зарегестрироваться" HorizontalAlignment="Left" Margin="463,327,0,0" VerticalAlignment="Top" Background="#FFF96060" BorderBrush="#FFF96060" Foreground="White" Click="Button_Click" Height="37" Width="228" FontSize="16">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="10 10 5 5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button Content="Назад" HorizontalAlignment="Left" Margin="463,369,0,0" VerticalAlignment="Top" Background="#FFF96060" BorderBrush="#FFF96060" Foreground="White" Height="34" Width="228" FontSize="16">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5 5 10 10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Image HorizontalAlignment="Left" Height="181" Margin="37,31,0,0" VerticalAlignment="Top" Width="209" Source="/5391009552729765759.jpg"/>
+        <TextBox HorizontalAlignment="Left" Margin="463,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="164" BorderBrush="White" Foreground="#FF959090" Text="Введите имя пользователя" TextChanged="TextBox_TextChanged"/>
+        <TextBox HorizontalAlignment="Left" Margin="463,154,0,0" TextWrapping="Wrap" Text="exam@yandex.ru" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090" TextChanged="TextBox_TextChanged_1"/>
+        <Label Content="Welcome back" HorizontalAlignment="Left" Margin="463,10,0,0" VerticalAlignment="Top" FontSize="24"/>
+        <Label Content="Имя пользователя" HorizontalAlignment="Left" Margin="463,66,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Label Content="Ваша почта" HorizontalAlignment="Left" Margin="463,123,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Border BorderBrush="#FF959090" BorderThickness="1" Margin="463,177,65,256"/>
+        <Border BorderBrush="#FF959090" BorderThickness="1" Margin="463,123,65,310"/>
+        <TextBox HorizontalAlignment="Left" Margin="463,211,0,0" TextWrapping="Wrap" Text="Введите пароль" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090"/>
+        <Label Content="Пароль" HorizontalAlignment="Left" Margin="463,180,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Border BorderBrush="#FF959090" BorderThickness="1" Margin="463,234,65,199"/>
+        <TextBox HorizontalAlignment="Left" Margin="463,269,0,0" TextWrapping="Wrap" Text="Повторите пароль" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090"/>
+        <Label Content="Повторите пароль" HorizontalAlignment="Left" Margin="463,238,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Border BorderBrush="#FF959090" BorderThickness="1" Margin="463,292,65,141"/>
+
+    </Grid>
+</Window>
