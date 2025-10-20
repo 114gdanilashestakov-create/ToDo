@@ -7,6 +7,21 @@
         mc:Ignorable="d"
         Title="Main_empty" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="431*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Добро пожаловать!&#xD;&#xA;&#xD;&#xA;" HorizontalAlignment="Left" Margin="204,109,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Grid.Row="1"/>
+        <Label Content="Создайте свою первую &#xD;&#xA;задачу!&#xD;&#xA;" HorizontalAlignment="Left" Margin="204,160,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Grid.Row="1"/>
+        <Button x:Name="CreateTaskButton" Content="Создать первую задачу&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,282,0,0" VerticalAlignment="Top" Background="#FFF96060" BorderBrush="#FFF96060" Foreground="White" Height="34" Width="228" FontSize="16" Click="Button_Click" Grid.Row="1"  >
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5 5 10 10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Image x:Name="avatarImage" HorizontalAlignment="Left" Height="108" Margin="10,6,0,0" VerticalAlignment="Top" Width="112" Source="/2.png" Grid.Row="1"/>
+        <Button x:Name="ChangePhotoButton" Content="Изменить&#xD;&#xA;фото &#xD;&#xA;профиля" HorizontalAlignment="Left" Margin="15,141,0,0" VerticalAlignment="Top" FontSize="10" Click="ChangePhotoButton_Click" Grid.Row="1" RenderTransformOrigin="2.948,2.598"/>
+        <Button x:Name="ExitButton" Content="Выход" HorizontalAlignment="Left" Margin="15,119,0,0" VerticalAlignment="Top" FontSize="10" Click="ExitButton_Click" Grid.Row="1"/>
     </Grid>
 </Window>

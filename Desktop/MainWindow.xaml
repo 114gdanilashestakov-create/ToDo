@@ -14,7 +14,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <Button Content="Регистрация" HorizontalAlignment="Left" Margin="463,367,0,0" VerticalAlignment="Top" Background="#FFF96060" BorderBrush="#FFF96060" Foreground="White" Height="34" Width="228" FontSize="16">
+        <Button Content="Регистрация" HorizontalAlignment="Left" Margin="463,367,0,0" VerticalAlignment="Top" Background="#FFF96060" BorderBrush="#FFF96060" Foreground="White" Height="34" Width="228" FontSize="16" Click="Button_Click_1">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5 5 10 10"/>
@@ -22,7 +22,7 @@
             </Button.Resources>
         </Button>
         <Image HorizontalAlignment="Left" Height="181" Margin="121,30,0,0" VerticalAlignment="Top" Width="209" Source="/5391009552729765759.jpg"/>
-        <TextBox HorizontalAlignment="Left" Margin="463,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090" Text="Введите почту"/>
+        <TextBox x:Name="email" HorizontalAlignment="Left" Margin="463,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090" Text="Введите почту" />
         <TextBox HorizontalAlignment="Left" Margin="463,225,0,0" TextWrapping="Wrap" Text="Введите пароль" VerticalAlignment="Top" Width="120" BorderBrush="White" Foreground="#FF959090"/>
         <Button Content="Восстановить пароль" HorizontalAlignment="Left" Margin="569,256,0,0" VerticalAlignment="Top" BorderBrush="White" Background="White" FontSize="16"/>
         <Label Content="Добро пожаловать!" HorizontalAlignment="Left" Margin="463,47,0,0" VerticalAlignment="Top" FontSize="24"/>

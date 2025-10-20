@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,7 @@ namespace Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +34,16 @@ namespace Desktop
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Main_empty mainW = new Main_empty();
+            mainW.Show();
+            this.Hide();
+        }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Registration mainW = new Registration();
+            mainW.Show();
+            this.Hide();
         }
     }
 }
