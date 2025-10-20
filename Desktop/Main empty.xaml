@@ -20,7 +20,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <Image x:Name="avatarImage" HorizontalAlignment="Left" Height="108" Margin="10,6,0,0" VerticalAlignment="Top" Width="112" Source="/2.png" Grid.Row="1"/>
+        <Image x:Name="avatarImage" HorizontalAlignment="Left" Height="108" Margin="15,6,0,0" VerticalAlignment="Top" Width="112" Source="/2.png" Grid.Row="1"/>
         <Button x:Name="ChangePhotoButton" Content="Изменить&#xD;&#xA;фото &#xD;&#xA;профиля" HorizontalAlignment="Left" Margin="15,141,0,0" VerticalAlignment="Top" FontSize="10" Click="ChangePhotoButton_Click" Grid.Row="1" RenderTransformOrigin="2.948,2.598"/>
         <Button x:Name="ExitButton" Content="Выход" HorizontalAlignment="Left" Margin="15,119,0,0" VerticalAlignment="Top" FontSize="10" Click="ExitButton_Click" Grid.Row="1"/>
     </Grid>
