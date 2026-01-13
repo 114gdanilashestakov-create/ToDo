@@ -1,6 +1,4 @@
-﻿
-using Desktop.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,27 +38,25 @@ namespace Desktop
 
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
-                ErrorMessageLabel.Content = "Пожалуйста, заполните все поля."; // Или ErrorMessageLabel.Text для Windows Forms
+                ErrorMessageLabel.Content = "Пожалуйста, заполните все поля.";
                 return;
             }
 
-            if (UserRepository.AuthenticateUser(login, password))
+            var user = UserRepository.AuthenticateUser(login, password);
+            if (user != null)
             {
-                // Аутентификация успешна
-                ErrorMessageLabel.Content = ""; // Скрываем сообщение об ошибке
-                MessageBox.Show("Вход успешно выполнен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information); // Или MessageBox.Show для Windows Forms
+                ErrorMessageLabel.Content = "";
 
-                // Открываем главное окно (замените MainAppWindow на имя вашего главного окна)
-                Main_empty mainWindow = new Main_empty(); // Или для Windows Forms: MainAppWindow mainWindow = new MainAppWindow();
+                MainTasks mainWindow = new MainTasks(user.Id, user.Name);
                 mainWindow.Show();
                 this.Close();
             }
             else
             {
-                ErrorMessageLabel.Content = "Неверный логин или пароль."; // Или ErrorMessageLabel.Text для Windows Forms
+                ErrorMessageLabel.Content = "Неверный логин или пароль.";
             }
         }
-        
+
         private void ChangePass_Click(object sender, RoutedEventArgs e)
         {
 

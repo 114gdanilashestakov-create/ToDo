@@ -1,5 +1,4 @@
-﻿using Desktop.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,7 +42,6 @@ namespace Desktop
                 {
                     MessageBox.Show("Регистрация успешно проведена!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    //Переход на другую форму
                     Main_empty glavForm = new Main_empty();
                     glavForm.Show();
                     this.Close();

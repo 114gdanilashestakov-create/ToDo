@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Desktop
 {
-    /// <summary>
-    /// Логика взаимодействия для Main_empty.xaml
-    /// </summary>
     public partial class Main_empty : Window
     {
         public Main_empty()
@@ -25,9 +22,11 @@ namespace Desktop
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            MainTasks mainTasksWindow = new MainTasks(1, "Тестовые задачи");
+            mainTasksWindow.Show();
+            this.Hide();
         }
 
 
@@ -41,7 +40,6 @@ namespace Desktop
 
             if (openFileDialog.ShowDialog() == true)
             {
-                // Загрузка нового изображения
                 string selectedFilePath = openFileDialog.FileName;
                 MessageBox.Show($"Выбрано новое фото: {System.IO.Path.GetFileName(selectedFilePath)}");
                 avatarImage.Source = new BitmapImage(new Uri(selectedFilePath));
@@ -59,6 +57,11 @@ namespace Desktop
                 MainW.Show();
                 this.Hide();
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

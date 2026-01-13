@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Desktop;
 using System.Windows;
 
 namespace Desktop
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+
+            SQLitePCL.Batteries.Init();
+
+            InitializeDatabase();
+        }
+
+        private void InitializeDatabase()
+        {
+            UserRepository.InitializeDatabase();
+        }
     }
 }
