@@ -34,9 +34,28 @@ namespace Desktop
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Main_empty mainW = new Main_empty();
-            mainW.Show();
-            this.Hide();
+            string login = loginT.Text;
+            string password = passwordT.Text;
+
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            {
+                ErrorMessageLabel.Content = "Пожалуйста, заполните все поля.";
+                return;
+            }
+
+            var user = UserRepository.AuthenticateUser(login, password);
+            if (user != null)
+            {
+                ErrorMessageLabel.Content = "";
+
+                MainTasks mainWindow = new MainTasks(user.Id, user.Name);
+                mainWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                ErrorMessageLabel.Content = "Неверный логин или пароль.";
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

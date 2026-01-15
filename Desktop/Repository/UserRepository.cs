@@ -32,6 +32,7 @@ namespace Desktop
                 )";
 
                 command.ExecuteNonQuery();
+
                 TaskRepository.InitializeDatabase();
             }
         }
