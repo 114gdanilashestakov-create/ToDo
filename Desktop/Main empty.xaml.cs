@@ -57,7 +57,9 @@ namespace Desktop
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            MainTasks MT = new MainTasks(1, "тест");
+            MT.Show();
+            this.Hide();
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,91 @@
+﻿<Window x:Class="Desktop.CreateTask"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Создание задачи" Height="484" Width="685" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FF2D2D30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Background="#FFF96060" Height="40">
+            <TextBlock Text="Создание задачи" Foreground="White" 
+                      FontSize="16" FontWeight="Bold"
+                      VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Border>
+
+        <!-- Основное содержимое -->
+        <StackPanel Grid.Row="1" Margin="20">
+            <!-- Название -->
+            <StackPanel Margin="0,0,0,15">
+                <TextBlock Text="Название" Foreground="White" Margin="0,0,0,5"/>
+                <TextBox x:Name="TitleTextBox" Height="30" Background="#FF3E3E42" 
+                        Foreground="White" BorderBrush="#FF555555"/>
+            </StackPanel>
+
+            <!-- Категория -->
+            <StackPanel Margin="0,0,0,15">
+                <TextBlock Text="Категория" Foreground="White" Margin="0,0,0,5"/>
+                <ComboBox x:Name="CategoryComboBox" Height="30" Background="#FF3E3E42" 
+                         Foreground="White" BorderBrush="#FF555555">
+                    <ComboBoxItem Content="Дом" IsSelected="True"/>
+                    <ComboBoxItem Content="Работа"/>
+                    <ComboBoxItem Content="Учеба"/>
+                    <ComboBoxItem Content="Отдых"/>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Описание -->
+            <StackPanel Margin="0,0,0,15">
+                <TextBlock Text="Описание" Foreground="White" Margin="0,0,0,5"/>
+                <TextBox x:Name="DescriptionTextBox" Height="100" Background="#FF3E3E42" 
+                        Foreground="White" BorderBrush="#FF555555" 
+                        TextWrapping="Wrap" AcceptsReturn="True"/>
+            </StackPanel>
+
+            <!-- Дата и время -->
+            <StackPanel>
+                <TextBlock Text="Дата и время" Foreground="White" Margin="0,0,0,5"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DatePicker x:Name="DatePickerControl" Grid.Column="0" Height="30" 
+                               Background="#FF3E3E42" Foreground="White" 
+                               BorderBrush="#FF555555" Margin="0,0,5,0"/>
+
+                    <ComboBox x:Name="TimePickerControl" Grid.Column="1" Height="30" 
+                             Background="#FF3E3E42" Foreground="White" 
+                             BorderBrush="#FF555555" Margin="5,0,0,0">
+                        <ComboBoxItem Content="9:00 AM"/>
+                        <ComboBoxItem Content="10:00 AM"/>
+                        <ComboBoxItem Content="11:00 AM"/>
+                        <ComboBoxItem Content="12:00 PM"/>
+                        <ComboBoxItem Content="1:00 PM"/>
+                        <ComboBoxItem Content="2:00 PM"/>
+                        <ComboBoxItem Content="3:00 PM"/>
+                        <ComboBoxItem Content="4:00 PM"/>
+                        <ComboBoxItem Content="5:00 PM"/>
+                        <ComboBoxItem Content="6:00 PM"/>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+        <!-- Кнопки -->
+        <Border Grid.Row="1" Background="#FF252526" Margin="0,349,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20">
+                <Button x:Name="CreateButton" Content="Создать" Width="100" Height="35" 
+                       Background="#FF007ACC" Foreground="White" 
+                       BorderBrush="#FF007ACC" Margin="0,0,10,0"
+                       Click="CreateButton_Click"/>
+                <Button x:Name="CancelButton" Content="Отмена" Width="100" Height="35" 
+                       Background="Transparent" Foreground="White" 
+                       BorderBrush="#FF555555" Click="CancelButton_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
