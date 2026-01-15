@@ -13,7 +13,6 @@ namespace Desktop
             using (var connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
-
                 var command = connection.CreateCommand();
                 command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS Tasks (
@@ -24,10 +23,35 @@ namespace Desktop
                     CreatedDate TEXT NOT NULL,
                     DueDate TEXT,
                     IsCompleted INTEGER NOT NULL DEFAULT 0,
+                    CompletedDate TEXT,
                     UserId INTEGER NOT NULL
                 )";
 
                 command.ExecuteNonQuery();
+                command = connection.CreateCommand();
+                command.CommandText = @"
+                PRAGMA table_info(Tasks)";
+
+                bool hasCompletedDate = false;
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader.GetString(1) == "CompletedDate")
+                        {
+                            hasCompletedDate = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!hasCompletedDate)
+                {
+                    command = connection.CreateCommand();
+                    command.CommandText = @"
+                    ALTER TABLE Tasks ADD COLUMN CompletedDate TEXT";
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -41,7 +65,8 @@ namespace Desktop
 
                 var command = connection.CreateCommand();
                 command.CommandText = @"
-                SELECT Id, Title, Category, Description, CreatedDate, DueDate, IsCompleted, UserId 
+                SELECT Id, Title, Category, Description, CreatedDate, DueDate, 
+                       IsCompleted, CompletedDate, UserId 
                 FROM Tasks 
                 WHERE UserId = @UserId 
                 ORDER BY CreatedDate DESC";
@@ -59,13 +84,18 @@ namespace Desktop
                             Category = reader.GetString(2),
                             Description = reader.IsDBNull(3) ? "" : reader.GetString(3),
                             CreatedDate = DateTime.Parse(reader.GetString(4)),
-                            UserId = reader.GetInt32(7),
+                            UserId = reader.GetInt32(8),
                             IsCompleted = reader.GetInt32(6) == 1
                         };
 
                         if (!reader.IsDBNull(5))
                         {
                             task.DueDate = DateTime.Parse(reader.GetString(5));
+                        }
+
+                        if (!reader.IsDBNull(7))
+                        {
+                            task.CompletedDate = DateTime.Parse(reader.GetString(7));
                         }
 
                         tasks.Add(task);
@@ -84,8 +114,10 @@ namespace Desktop
 
                 var command = connection.CreateCommand();
                 command.CommandText = @"
-                INSERT INTO Tasks (Title, Category, Description, CreatedDate, DueDate, IsCompleted, UserId) 
-                VALUES (@Title, @Category, @Description, @CreatedDate, @DueDate, @IsCompleted, @UserId)";
+                INSERT INTO Tasks (Title, Category, Description, CreatedDate, DueDate, 
+                                   IsCompleted, CompletedDate, UserId) 
+                VALUES (@Title, @Category, @Description, @CreatedDate, @DueDate, 
+                        @IsCompleted, @CompletedDate, @UserId)";
 
                 command.Parameters.AddWithValue("@Title", task.Title);
                 command.Parameters.AddWithValue("@Category", task.Category);
@@ -94,6 +126,10 @@ namespace Desktop
                 command.Parameters.AddWithValue("@DueDate", task.DueDate.HasValue ?
                     task.DueDate.Value.ToString("yyyy-MM-dd HH:mm:ss") : (object)DBNull.Value);
                 command.Parameters.AddWithValue("@IsCompleted", task.IsCompleted ? 1 : 0);
+                command.Parameters.AddWithValue("@CompletedDate",
+                    task.CompletedDate.HasValue ?
+                    task.CompletedDate.Value.ToString("yyyy-MM-dd HH:mm:ss") :
+                    (object)DBNull.Value);
                 command.Parameters.AddWithValue("@UserId", task.UserId);
 
                 int result = command.ExecuteNonQuery();
@@ -108,7 +144,15 @@ namespace Desktop
                 connection.Open();
 
                 var command = connection.CreateCommand();
-                command.CommandText = "UPDATE Tasks SET IsCompleted = @IsCompleted WHERE Id = @Id";
+                command.CommandText = @"
+                UPDATE Tasks 
+                SET IsCompleted = @IsCompleted, 
+                    CompletedDate = CASE 
+                        WHEN @IsCompleted = 1 THEN datetime('now') 
+                        ELSE NULL 
+                    END
+                WHERE Id = @Id";
+
                 command.Parameters.AddWithValue("@IsCompleted", isCompleted ? 1 : 0);
                 command.Parameters.AddWithValue("@Id", taskId);
 

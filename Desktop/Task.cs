@@ -12,5 +12,7 @@ namespace Desktop
         public DateTime? DueDate { get; set; }
         public bool IsCompleted { get; set; }
         public int UserId { get; set; }
+
+        public DateTime? CompletedDate { get; set; }
     }
 }

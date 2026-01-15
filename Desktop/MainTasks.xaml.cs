@@ -14,6 +14,7 @@ namespace Desktop
         private string _userName;
         private List<Task> _tasks;
         private Task _selectedTask;
+        private bool _showCompletedOnly = false;
 
         public MainTasks(int userId, string userName)
         {
@@ -31,9 +32,13 @@ namespace Desktop
             UserNameTextBlock.Text = _userName;
 
             var stackPanel = (StackPanel)LeftPanel.Child;
-            if (stackPanel.Children[1] is Border avatarBorder && avatarBorder.Child is TextBlock avatarText)
+            foreach (var child in stackPanel.Children)
             {
-                avatarText.Text = firstLetter;
+                if (child is Border border && border.Child is TextBlock textBlock)
+                {
+                    textBlock.Text = firstLetter;
+                    break;
+                }
             }
         }
 
@@ -55,12 +60,19 @@ namespace Desktop
         private void DisplayCategories()
         {
             CategoriesPanel.Children.Clear();
-
             var allButton = CreateCategoryButton("Все");
             allButton.Click += (s, e) => DisplayTasks();
             CategoriesPanel.Children.Add(allButton);
 
-            var categories = TaskRepository.GetAllCategories(_currentUserId);
+            var tasksToShow = _showCompletedOnly
+                ? _tasks.Where(t => t.IsCompleted).ToList()
+                : _tasks.Where(t => !t.IsCompleted).ToList();
+
+            var categories = tasksToShow
+                .Select(t => t.Category)
+                .Distinct()
+                .ToList();
+
             if (categories.Count == 0)
             {
                 categories = new List<string> { "Дом", "Работа", "Учеба", "Отдых" };
@@ -94,12 +106,44 @@ namespace Desktop
             TasksPanel.Children.Clear();
 
             var filteredTasks = string.IsNullOrEmpty(category) || category == "Все"
-                ? _tasks
-                : _tasks.Where(t => t.Category == category).ToList();
+                ? (_showCompletedOnly
+                    ? _tasks.Where(t => t.IsCompleted).ToList()
+                    : _tasks.Where(t => !t.IsCompleted).ToList())
+                : (_showCompletedOnly
+                    ? _tasks.Where(t => t.Category == category && t.IsCompleted).ToList()
+                    : _tasks.Where(t => t.Category == category && !t.IsCompleted).ToList());
 
-            foreach (var task in filteredTasks)
+            if (_showCompletedOnly)
             {
-                TasksPanel.Children.Add(CreateTaskControl(task));
+                filteredTasks = filteredTasks.OrderByDescending(t => t.CreatedDate).ToList();
+            }
+            else
+            {
+                filteredTasks = filteredTasks.OrderBy(t => t.DueDate ?? DateTime.MaxValue).ToList();
+            }
+
+            if (filteredTasks.Count == 0)
+            {
+                var messageText = _showCompletedOnly
+                    ? "Нет выполненных задач"
+                    : "Нет активных задач";
+
+                var messageBlock = new TextBlock
+                {
+                    Text = messageText,
+                    Foreground = Brushes.Gray,
+                    FontSize = 16,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 50, 0, 0)
+                };
+                TasksPanel.Children.Add(messageBlock);
+            }
+            else
+            {
+                foreach (var task in filteredTasks)
+                {
+                    TasksPanel.Children.Add(CreateTaskControl(task));
+                }
             }
         }
 
@@ -121,21 +165,41 @@ namespace Desktop
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-            var checkBox = new CheckBox
+            if (_showCompletedOnly)
             {
-                IsChecked = task.IsCompleted,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 10, 0)
-            };
-            checkBox.Checked += (s, e) => UpdateTaskStatus(task.Id, true);
-            checkBox.Unchecked += (s, e) => UpdateTaskStatus(task.Id, false);
+                var checkIcon = new TextBlock
+                {
+                    Text = "✓",
+                    Foreground = Brushes.Green,
+                    FontSize = 16,
+                    FontWeight = FontWeights.Bold,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+                Grid.SetColumn(checkIcon, 0);
+                grid.Children.Add(checkIcon);
+            }
+            else
+            {
+                var checkBox = new CheckBox
+                {
+                    IsChecked = task.IsCompleted,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 10, 0)
+                };
+                checkBox.Checked += (s, e) => UpdateTaskStatus(task.Id, true);
+                checkBox.Unchecked += (s, e) => UpdateTaskStatus(task.Id, false);
+
+                Grid.SetColumn(checkBox, 0);
+                grid.Children.Add(checkBox);
+            }
 
             var titleText = new TextBlock
             {
                 Text = task.Title,
                 Foreground = task.IsCompleted ?
                     new SolidColorBrush(Color.FromRgb(128, 128, 128)) :
-                    Brushes.White,
+                    Brushes.Black,
                 FontSize = 14,
                 VerticalAlignment = VerticalAlignment.Center,
                 TextDecorations = task.IsCompleted ? TextDecorations.Strikethrough : null
@@ -153,11 +217,9 @@ namespace Desktop
                 Margin = new Thickness(20, 0, 0, 0)
             };
 
-            Grid.SetColumn(checkBox, 0);
             Grid.SetColumn(titleText, 1);
             Grid.SetColumn(dateText, 2);
 
-            grid.Children.Add(checkBox);
             grid.Children.Add(titleText);
             grid.Children.Add(dateText);
 
@@ -178,7 +240,7 @@ namespace Desktop
                 ? "Нет описания"
                 : task.Description;
 
-            CompleteButton.IsEnabled = !task.IsCompleted;
+            CompleteButton.IsEnabled = !task.IsCompleted && !_showCompletedOnly;
             DeleteButton.IsEnabled = true;
         }
 
@@ -195,6 +257,10 @@ namespace Desktop
                         if (_selectedTask?.Id == taskId)
                         {
                             SelectTask(task);
+                        }
+                        if (_showCompletedOnly)
+                        {
+                            DisplayTasks();
                         }
                     }
                 }
@@ -258,6 +324,38 @@ namespace Desktop
                     }
                 }
             }
+        }
+        private void HistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            _showCompletedOnly = !_showCompletedOnly;
+            if (_showCompletedOnly)
+            {
+                HistoryButton.Content = "←";
+                HistoryButton.Background = new SolidColorBrush(Color.FromRgb(108, 117, 125));
+                HistoryButton.BorderBrush = new SolidColorBrush(Color.FromRgb(108, 117, 125));
+                HistoryButton.ToolTip = "Вернуться к активным задачам";
+            }
+            else
+            {
+                HistoryButton.Content = "✓";
+                HistoryButton.Background = new SolidColorBrush(Color.FromRgb(40, 167, 69));
+                HistoryButton.BorderBrush = new SolidColorBrush(Color.FromRgb(40, 167, 69));
+                HistoryButton.ToolTip = "Показать историю выполненных задач";
+            }
+
+            this.Title = _showCompletedOnly ? "История задач" : "Задачи";
+
+            if (_selectedTask != null)
+            {
+                _selectedTask = null;
+                SelectedTaskTitle.Text = "Заголовок";
+                SelectedTaskDate.Text = "18:00 01 Января 2022";
+                SelectedTaskDescription.Text = "Lorem ipsum dolor sit amet, consectetur adipiscing.";
+                CompleteButton.IsEnabled = false;
+                DeleteButton.IsEnabled = false;
+            }
+            DisplayCategories();
+            DisplayTasks();
         }
     }
 }

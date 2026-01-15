@@ -24,7 +24,7 @@ namespace Desktop
 
         public void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainTasks mainTasksWindow = new MainTasks(1, "Тестовые задачи");
+            MainTasks mainTasksWindow = new MainTasks(1,"");
             mainTasksWindow.Show();
             this.Hide();
         }

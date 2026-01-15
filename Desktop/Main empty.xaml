@@ -13,7 +13,7 @@
         <Image x:Name="avatarImage" Margin="10,10,676,337" Source="/Image1.png" Stretch="Fill"/>
         <Label Content="Добро пожаловать!" HorizontalAlignment="Left" Margin="208,79,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Height="42" Width="244"/>
         <Label Content="Создайте свою первую задачу!" HorizontalAlignment="Left" Margin="209,155,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Height="42" Width="377"/>
-        <Button Content="Создать первую задачу" HorizontalAlignment="Left" Margin="290,248,0,0" VerticalAlignment="Top" Height="62" Width="272" Background="#FFF96060" BorderBrush="{x:Null}" Foreground="White" FontSize="20">
+        <Button x:Name="start" Content="Создать первую задачу" HorizontalAlignment="Left" Margin="290,248,0,0" VerticalAlignment="Top" Height="62" Width="272" Background="#FFF96060" BorderBrush="{x:Null}" Foreground="White" FontSize="20" Click="Button_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10 10 10 10"/>
@@ -21,7 +21,7 @@
             </Button.Resources>
         </Button>
         <Button x:Name="LogOut" Content="Выход из профиля" Margin="16,0,636,247" VerticalAlignment="Bottom" Height="28" Click="LogOut_Click"/>
-        <Button x:Name="ChangePhoto" Content="Изменить фото профиля" Margin="15,94,635,0" VerticalAlignment="Top" Height="34" Click="ChangePhoto_Click"/>
+        <Button x:Name="ChangePhoto" Content="Изменить фото профиля" Margin="15,113,635,0" VerticalAlignment="Top" Height="34" Click="ChangePhoto_Click"/>
 
     </Grid>
 </Window>
