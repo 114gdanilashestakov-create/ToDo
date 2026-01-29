@@ -199,5 +199,20 @@ namespace Desktop
 
             return categories;
         }
+
+        public static bool UserHasTasks(int userId)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT COUNT(*) FROM Tasks WHERE UserId = @UserId";
+                command.Parameters.AddWithValue("@UserId", userId);
+
+                var result = command.ExecuteScalar();
+                return Convert.ToInt32(result) > 0;
+            }
+        }
     }
 }

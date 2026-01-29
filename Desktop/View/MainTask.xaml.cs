@@ -1,5 +1,4 @@
-﻿using Desktop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -8,7 +7,7 @@ using System.Windows.Media;
 
 namespace Desktop
 {
-    public partial class MainTasks : Window
+    public partial class MainTasks : Page
     {
         private int _currentUserId;
         private string _userName;
@@ -28,18 +27,8 @@ namespace Desktop
         private void LoadUserData()
         {
             string firstLetter = _userName.Length > 0 ? _userName[0].ToString().ToUpper() : "U";
-
+            AvatarTextBlock.Text = firstLetter;
             UserNameTextBlock.Text = _userName;
-
-            var stackPanel = (StackPanel)LeftPanel.Child;
-            foreach (var child in stackPanel.Children)
-            {
-                if (child is Border border && border.Child is TextBlock textBlock)
-                {
-                    textBlock.Text = firstLetter;
-                    break;
-                }
-            }
         }
 
         private void LoadTasks()
@@ -274,11 +263,13 @@ namespace Desktop
 
         private void AddTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            var createTaskWindow = new CreateTask(_currentUserId);
-            if (createTaskWindow.ShowDialog() == true)
+            CreateTask createTaskPage = new CreateTask(_currentUserId);
+            createTaskPage.Returned += (s, args) =>
             {
                 LoadTasks();
-            }
+            };
+
+            NavigationService.Navigate(createTaskPage);
         }
 
         private void CompleteButton_Click(object sender, RoutedEventArgs e)
@@ -325,6 +316,7 @@ namespace Desktop
                 }
             }
         }
+
         private void HistoryButton_Click(object sender, RoutedEventArgs e)
         {
             _showCompletedOnly = !_showCompletedOnly;
@@ -343,8 +335,6 @@ namespace Desktop
                 HistoryButton.ToolTip = "Показать историю выполненных задач";
             }
 
-            this.Title = _showCompletedOnly ? "История задач" : "Задачи";
-
             if (_selectedTask != null)
             {
                 _selectedTask = null;
@@ -356,6 +346,19 @@ namespace Desktop
             }
             DisplayCategories();
             DisplayTasks();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите выйти из профиля?",
+                "Выход из профиля", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Навигация на страницу логина
+                MainWindow loginPage = new MainWindow();
+                NavigationService.Navigate(loginPage);
+            }
         }
     }
 }

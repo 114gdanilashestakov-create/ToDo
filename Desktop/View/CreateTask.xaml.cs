@@ -4,9 +4,10 @@ using System.Windows.Controls;
 
 namespace Desktop
 {
-    public partial class CreateTask : Window
+    public partial class CreateTask : Page
     {
         private int _currentUserId;
+        public event EventHandler Returned;
 
         public CreateTask(int userId)
         {
@@ -34,7 +35,6 @@ namespace Desktop
                     Description = DescriptionTextBox.Text,
                     UserId = _currentUserId
                 };
-
 
                 if (DatePickerControl.SelectedDate.HasValue && TimePickerControl.SelectedItem != null)
                 {
@@ -66,8 +66,7 @@ namespace Desktop
                 {
                     MessageBox.Show("Задача успешно создана!", "Успех",
                         MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.DialogResult = true;
-                    this.Close();
+                        NavigationService.GoBack();
                 }
                 else
                 {
@@ -82,10 +81,12 @@ namespace Desktop
             }
         }
 
+
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
-            this.Close();
+            // Возврат на предыдущую страницу
+                NavigationService.GoBack();
         }
     }
 }

@@ -1,34 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Desktop
 {
-    public partial class Main_empty : Window
+    public partial class Main_Empty : Page
     {
-        public Main_empty()
+        private int _userId;
+        private string _userName;
+
+        public Main_Empty(int userId, string userName)
         {
             InitializeComponent();
+            _userId = userId;
+            _userName = userName;
         }
 
-        public void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainTasks mainTasksWindow = new MainTasks(1,"");
-            mainTasksWindow.Show();
-            this.Hide();
+            if (NavigationService != null)
+            {
+                CreateTask createTaskPage = new CreateTask(_userId);
+                NavigationService.Navigate(createTaskPage);
+            }
+            else
+            {
+                MessageBox.Show("Ошибка навигации", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-
 
         private void ChangePhoto_Click(object sender, RoutedEventArgs e)
         {
@@ -45,7 +46,8 @@ namespace Desktop
                 avatarImage.Source = new BitmapImage(new Uri(selectedFilePath));
             }
         }
-        private void LogOut_Click(object sender, RoutedEventArgs e)
+
+        public void LogOut_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Вы уверены, что хотите выйти?", "Выход из профиля",
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -53,9 +55,17 @@ namespace Desktop
             if (result == MessageBoxResult.Yes)
             {
                 MessageBox.Show("Выход выполнен успешно!");
-                MainWindow MainW = new MainWindow();
-                MainW.Show();
-                this.Hide();
+                if (NavigationService != null)
+                {
+                    Window parentWindow = Window.GetWindow(this);
+
+                    if (parentWindow != null)
+                    {
+                        Frame mainFrame = new Frame();
+                        parentWindow.Content = mainFrame;
+                        mainFrame.Navigate(new Main_Empty(_userId, _userName));
+                    }
+                }
             }
         }
     }

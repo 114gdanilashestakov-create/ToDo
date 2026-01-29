@@ -26,9 +26,7 @@ namespace Desktop
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Regist Regist1 = new Regist();
-            Regist1.Show();
-            this.Hide();
+            MainFrame.Navigate(new Regist());
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
@@ -46,10 +44,7 @@ namespace Desktop
             if (user != null)
             {
                 ErrorMessageLabel.Content = "";
-
-                MainTasks mainWindow = new MainTasks(user.Id, user.Name);
-                mainWindow.Show();
-                this.Close();
+                MainFrame.Navigate(new MainTasks(user.Id, user.Name));
             }
             else
             {

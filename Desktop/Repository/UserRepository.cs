@@ -88,5 +88,33 @@ namespace Desktop
                 return false;
             }
         }
+
+        public static User GetUserByEmail(string email)
+        {
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT Id, Name, Email, Password FROM Users WHERE Email = @Email";
+                command.Parameters.AddWithValue("@Email", email);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new User
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Email = reader.GetString(2),
+                            Password = reader.GetString(3)
+                        };
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

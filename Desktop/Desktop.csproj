@@ -109,34 +109,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateTask.xaml.cs">
-      <DependentUpon>CreateTask.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Main empty.xaml.cs">
-      <DependentUpon>Main empty.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainTasks.xaml.cs">
-      <DependentUpon>MainTasks.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Regist.xaml.cs">
-      <DependentUpon>Regist.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Repository\TaskRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Task.cs" />
-    <Page Include="CreateTask.xaml">
+    <Compile Include="View\CreateTask.xaml.cs">
+      <DependentUpon>CreateTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainTask.xaml.cs">
+      <DependentUpon>MainTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Main_Empty.xaml.cs">
+      <DependentUpon>Main_Empty.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Regist.xaml.cs">
+      <DependentUpon>Regist.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\MainTask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Main empty.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainTasks.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -144,11 +136,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Regist.xaml">
+    <Page Include="View\CreateTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Main_Empty.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Regist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
